@@ -9,9 +9,25 @@ export class UserRepository {
         @InjectModel('user') private readonly userModel: Model<User>
     ){}
 
-    saveUser(newUser: UserDto){
+    async saveUser(newUser: UserDto):Promise<User>{
         const saveUser = new this.userModel(newUser);
         return  saveUser.save();
     }
 
+    async getUsers():Promise<User[]>{
+        return await this.userModel.find({},{ __v:false})
+    }
+
+    async getUserById(userId:string):Promise<User>{
+        return await this.userModel.findById(userId);
+        
+    }
+
+    async deleteUserById(userId:string):Promise<User>{
+        return await this.userModel.findOneAndDelete({_id: userId})
+    }
+
+    async updateUserById(userId:string , newInfo:UserDto): Promise<User>{
+        return await this.userModel.findOneAndReplace({ _id: userId}, newInfo,{new:true})
+    }
 }   
