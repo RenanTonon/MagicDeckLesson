@@ -1,11 +1,14 @@
 import {Get, Delete, Patch, Controller, Body, Post, Param, UseGuards} from "@nestjs/common"
-import { AuthGuardRoute } from "src/auth/auth.guard";
+import { AuthGuard } from "src/auth/auth.guard";
+import { Roles } from "src/auth/role.decorator";
+import { Role } from "src/auth/role.enum";
+import { RolesGuard } from "src/auth/roles.guard";
 
 import { UserDto } from "src/DTO/user.dto"
 import { User } from "src/Mongo/interfaces/user.interface";
 import { UserService } from "src/services/user.services"
 
-@UseGuards(AuthGuardRoute)
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('users')
 export class UserController {
 
@@ -19,7 +22,7 @@ export class UserController {
         const saveUser = await this.userService.saveUser(newUser);
         return saveUser;
     }
-    
+    @Roles(Role.Admin)
     @Get()
     async getAllUser():Promise<User[]>{
         const getUsers = await this.userService.getAllUser()
@@ -39,9 +42,5 @@ export class UserController {
     @Patch(':UserId')
     async updateUserById(@Param('UserId') userId: string, @Body() newInfo: UserDto):Promise<User>{
         return await this.userService.updateUserById(userId,newInfo)
-    }
-    @Post('login')
-    async autenticao(@Body('username') username: string, @Body('password') password:string):Promise<any>{
-        return await this.userService.autenticao(username,password)
     }
 }

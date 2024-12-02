@@ -57,7 +57,7 @@ export class UserService {
         }
        
     }
-    async autenticao(username:string,password:string):Promise<any>{
+    async findUserByName(username:string,password:string):Promise<any>{
         try {
             const user = await this.userRepository.autenticao(username,password)
             if(!user){

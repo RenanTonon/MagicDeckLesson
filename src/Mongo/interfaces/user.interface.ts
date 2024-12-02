@@ -7,4 +7,5 @@ export interface User extends Document {
     readonly nome: string,
     readonly senha: string,
     readonly decks: object,
+    readonly role: string,
 }

@@ -8,12 +8,19 @@ import { UserRepository } from './Mongo/repository/user.repository';
 import { DeckService } from './services/deck.services';
 import { DeckRepository } from './Mongo/repository/deck.repository';
 import { DeckSchema } from './Mongo/schemas/deck.schema';
-
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constant';
+import { AuthService } from './auth/auth.service';
+import { AuthController } from './auth/auth.controller';
 
 
 @Module({
   imports: [
-    
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '60s' },
+    }),
     MongooseModule.forRoot('mongodb://localhost:27017/deck-lesson'),
     MongooseModule.forFeature([
       {name:'user', schema: UserSchema}
@@ -24,8 +31,8 @@ import { DeckSchema } from './Mongo/schemas/deck.schema';
     
 
   ],
-  controllers: [DeckController,UserController],
-  providers: [UserService,UserRepository,DeckService,DeckRepository]
+  controllers: [DeckController,UserController,AuthController],
+  providers: [UserService,UserRepository,DeckService,DeckRepository,AuthService]
 })
 export class AppModule {}
   

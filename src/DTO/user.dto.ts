@@ -14,4 +14,5 @@ export class UserDto {
     
     readonly decks: DeckDto[];
 
+    readonly role: String;
 }
