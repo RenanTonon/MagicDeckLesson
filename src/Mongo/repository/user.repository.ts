@@ -30,4 +30,8 @@ export class UserRepository {
     async updateUserById(userId:string , newInfo:UserDto): Promise<User>{
         return await this.userModel.findOneAndReplace({ _id: userId}, newInfo,{new:true})
     }
+
+    async autenticao(username:string,password:string):Promise<any>{
+        return await this.userModel.findOne({nome:username,senha:password})
+    }
 }   

@@ -10,9 +10,10 @@ import { DeckRepository } from './Mongo/repository/deck.repository';
 import { DeckSchema } from './Mongo/schemas/deck.schema';
 
 
+
 @Module({
   imports: [
-
+    
     MongooseModule.forRoot('mongodb://localhost:27017/deck-lesson'),
     MongooseModule.forFeature([
       {name:'user', schema: UserSchema}
@@ -20,6 +21,7 @@ import { DeckSchema } from './Mongo/schemas/deck.schema';
     MongooseModule.forFeature([
       {name:'deck', schema: DeckSchema}
     ]),
+    
 
   ],
   controllers: [DeckController,UserController],

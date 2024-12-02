@@ -57,4 +57,16 @@ export class UserService {
         }
        
     }
+    async autenticao(username:string,password:string):Promise<any>{
+        try {
+            const user = await this.userRepository.autenticao(username,password)
+            if(!user){
+                throw new BadRequestException("usuario invalido")
+            }
+            return user
+        } catch (error) {
+            throw new BadRequestException("usuario invalido")
+        }
+        
+    }
 }
